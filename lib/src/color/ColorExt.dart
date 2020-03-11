@@ -3,7 +3,7 @@ import 'dart:math' as Math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_extensions/dart/color/HslColor.dart';
+import 'package:flutter_extensions/src/color/HslColor.dart';
 import 'package:tinycolor/conversion.dart';
 
 extension ColorExt on Color {

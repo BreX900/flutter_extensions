@@ -1,13 +1,25 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 extension MapExt<K, V> on Map<K, V> {
-  Iterable<T> buildIterable<T>(T generator(K key, V value)) {
+  Iterable<T> generateIterable<T>(T Function(K key, V value) generator) {
     return entries.map((entry) => generator(entry.key, entry.value));
   }
 
   void removeNullValues() => removeWhere((key, value) => value == null);
+
+  String encodeToString() => jsonEncode(this);
+
+  Iterable<dynamic> serialize() {
+    final list = <dynamic>[]..length = length * 2;
+    var i = 0;
+    for (var entry in entries) {
+      list[i++] = entry.value;
+      list[i++] = entry.key;
+    }
+    return list;
+  }
 }
 
 extension OrderMapExt<K extends num, V> on Map<K, V> {
@@ -21,8 +33,4 @@ extension OrderMapExt<K extends num, V> on Map<K, V> {
     }
     return newList;
   }
-}
-
-extension JsonMapExt<V> on Map<String, V> {
-  String serialize() => jsonEncode(this);
 }

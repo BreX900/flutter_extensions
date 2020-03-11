@@ -1,8 +1,12 @@
 library flutter_extensions;
 
-export 'package:flutter_extensions/dart/collections/IterableExt.dart';
-export 'package:flutter_extensions/dart/collections/MapExt.dart';
-export 'package:flutter_extensions/dart/color/ColorExt.dart';
-export 'package:flutter_extensions/dart/color/HslColor.dart';
-export 'package:flutter_extensions/dart/primitive/primitive.dart';
-export 'package:flutter_extensions/flutter/ColorSchemeExt.dart';
+export 'src/color/ColorExt.dart';
+export 'src/color/HslColor.dart';
+export 'src/ColorSchemeExt.dart';
+
+export 'src/widgets/SizeCopier.dart';
+
+export 'src/InputDecoration.dart';
+export 'src/StreamFlutterExt.dart';
+
+export 'src/lib.dart';
