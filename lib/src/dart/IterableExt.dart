@@ -56,6 +56,8 @@ extension IterableExt<T> on Iterable<T> {
     }
   }
 
+  V tryFirstWhereType<V>() => firstWhere((element) => element is V, orElse: () => null) as V;
+
   Iterable<N> doubleMap<N>(N Function(T, T) converter) {
     final it = iterator;
     final list = <N>[];

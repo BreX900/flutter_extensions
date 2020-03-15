@@ -8,40 +8,40 @@ Adds several extensions
 
 Extensions color code we thank "TinyColor"
 
-### Iterable
+### Iterable<T>
+
+| Command | Description |
+| ------- | ----------- |
+| tryFirstWhereType<T>() | return a first element where type is T else null |
+| more | more |
 
 
 ### String
 
-Returns a default value when the string is empty or blank
+| Command | Description |
+| ------- | ----------- |
+| ifEmpty<T>(() => 'text') | if string is empty returns a 'text' otherwise return string |
+| isBlank | if string is empty or contains only space returns true otherwise returns false |
+| ifBlank(() => 'text') | if string is empty or contains only space returns 'text' otherwise returns string |
+
+### Widgets
+
+#### Listenable
+
+| Widget | Description |
+| ------- | ----------- |
+| ListenableBuilder | listen to a `Listenable` and construct the ui based on the changes |
+| ValueListenableBuilder | listen to a `Listenable` and construct the ui based on the changes only if they respect the 'condition' or the value does not change |
+| ListenableListener | to do... |
+| ValueListenableListener | to do... |
+| ConsumerListener | to do... |
+| ValueConsumerListener | to do... |
+
+#### Others
+
+| Widget | Description |
+| ------- | ----------- |
+| SizeCopier | Update a `SizeCopierController` with the size of the child |
+| SizeCopy | Create a SizedWidget taking inspiration from `SizeCopierController` |
 
 
-```dart
-''.ifEmpty(() => 'text');  // => text
-' '.isBlank;               // => true
-' '.ifBlank(() => 'text'); // => text
-```
-
-### SizeCopier
-
-Copy the size of a widget on the screen ( copy height and width )
-
-```dart
-GlobalKey buttonBarKey = GlobalKey();
-// ...
-Scaffold(
-  extendBody: true,
-  body: SingleChildScrollView(
-    child: Column(
-      children: <Widget>[
-        // ...
-        SizeCopier(originalKey: buttonBarKey),
-      ],
-    ),
-  ),
-  bottomBar: ButtonBar(
-    key: buttonBarKey,
-    // ...
-  );
-);
-```

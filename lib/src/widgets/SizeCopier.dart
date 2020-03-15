@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 
 class GlobalKeyDrainer<T extends State<StatefulWidget>> extends StatefulWidget {
   final Widget Function(BuildContext, GlobalKey<T>) builder;
@@ -29,6 +30,19 @@ class _GlobalKeyDrainerState<T extends State<StatefulWidget>> extends State<Glob
   }
 }
 
+class SizeCopierController extends ChangeNotifier {
+  Size _size;
+
+  SizeCopierController({Size initialSize = Size.zero}) : _size = initialSize;
+
+  Size get size => _size;
+  set size(Size size) {
+    if (_size == size) return;
+    _size = size;
+    notifyListeners();
+  }
+}
+
 abstract class SizeCopierBinders {
   SizeCopierBinders._();
 
@@ -51,24 +65,54 @@ abstract class SizeCopierBinders {
 }
 
 class SizeCopier extends StatefulWidget {
-  final bool isRequiredRenderBox;
-  final Size initialSize;
-  final GlobalKey originalKey;
+  final Widget child;
+
+  SizeCopier({Key key, @required this.child}) : super(key: key);
+
+  @override
+  SizeCopierState createState() => SizeCopierState();
+}
+
+class SizeCopierState extends State<SizeCopier> {
+  @override
+  void initState() {
+    super.initState();
+    _copySize();
+  }
+
+  void _copySize() {
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      final box = context.findRenderObject() as RenderBox;
+      Provider.of<SizeCopierController>(context, listen: false).size = box.size;
+    });
+  }
+
+  bool _handleNotification(SizeChangedLayoutNotification notification) {
+    _copySize();
+    return true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return NotificationListener<SizeChangedLayoutNotification>(
+      onNotification: _handleNotification,
+      child: SizeChangedLayoutNotifier(
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+class SizeCopy extends StatefulWidget {
   final Widget Function(BuildContext, Size) builder;
 
-  SizeCopier({
+  SizeCopy({
     Key key,
-    bool isRequiredRenderBox = true,
-    Size initialSize,
-    @required GlobalKey originalKey,
     BoxConstraints Function(Size) binder = SizeCopierBinders.identical,
     Widget Function(BuildContext, Widget) builder,
     Widget child,
-  }) : this.custom(
+  }) : this.builder(
           key: key,
-          isRequiredRenderBox: isRequiredRenderBox,
-          initialSize: initialSize,
-          originalKey: originalKey,
           builder: (context, size) {
             final copy = ConstrainedBox(constraints: binder(size), child: child);
             if (builder != null) return builder(context, copy);
@@ -76,50 +120,58 @@ class SizeCopier extends StatefulWidget {
           },
         );
 
-  const SizeCopier.custom({
+  const SizeCopy.builder({
     Key key,
-    this.isRequiredRenderBox = true,
-    this.initialSize,
-    @required this.originalKey,
     @required this.builder,
-  })  : assert(originalKey != null),
-        assert(builder != null),
+  })  : assert(builder != null),
         super(key: key);
 
   @override
-  _SizeCopierState createState() => _SizeCopierState();
+  _SizeCopyState createState() => _SizeCopyState();
 }
 
-class _SizeCopierState extends State<SizeCopier> {
+class _SizeCopyState extends State<SizeCopy> {
+  SizeCopierController _controller;
   Size _size;
 
-  GlobalKey get originalKey => widget.originalKey;
-
   @override
-  void initState() {
-    super.initState();
-    _size = widget.initialSize ?? Size.zero;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final newController = Provider.of<SizeCopierController>(context);
+    if (_controller != newController) {
+      _removeListener();
+      _controller = newController;
+      _addListener();
+    }
   }
 
-  void _copySize() {
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      final keyContext = originalKey.currentContext;
-      if (keyContext == null) {
-        assert(!widget.isRequiredRenderBox, 'Must have [RenderBox]');
-        return;
-      }
-      final box = keyContext.findRenderObject() as RenderBox;
-      if (_size != box.size) {
-        setState(() {
-          _size = box.size;
-        });
-      }
-    });
+  @override
+  void dispose() {
+    super.dispose();
+    _removeListener();
+  }
+
+  void _addListener() {
+    if (_controller == null) return;
+    _controller.addListener(_updateSize);
+    _size = _controller.size;
+  }
+
+  void _removeListener() {
+    if (_controller == null) return;
+    _controller.removeListener(_updateSize);
+  }
+
+  void _updateSize() {
+    if (_size != _controller.size) {
+      setState(() {
+        _size = _controller.size;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    _copySize();
     return widget.builder(context, _size);
   }
 }
