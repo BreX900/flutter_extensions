@@ -150,3 +150,8 @@ extension BuildContextExt on BuildContext {
 
   Locale locale({bool nullOk = false}) => Localizations.localeOf(this, nullOk: nullOk);
 }
+
+extension TargetPlatformExt on TargetPlatform {
+  bool get isMobile => this == TargetPlatform.android || this == TargetPlatform.iOS;
+  bool get isDesktop => this == TargetPlatform.fuchsia;
+}

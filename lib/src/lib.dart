@@ -3,6 +3,7 @@ export 'dart/built_value/GenericSerializer.dart';
 
 export 'dart/IterableExt.dart';
 export 'dart/MapExt.dart';
+export 'dart/Param.dart';
 export 'dart/primitive.dart';
 export 'dart/stream.dart';
 

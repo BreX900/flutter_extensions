@@ -24,18 +24,42 @@ Extensions color code we thank "TinyColor"
 | isBlank | if string is empty or contains only space returns true otherwise returns false |
 | ifBlank(() => 'text') | if string is empty or contains only space returns 'text' otherwise returns string |
 
+## Dart - Flutter
+
+### DateTime - Time
+
+| D | Command | Description |
+| ---- | ------- | ----------- |
+| + | DateTime.copyWith |  |
+| + | DateTime.copyWithPosition |  |
+| - | DateTime.toTimeOfDay | |
+| - | DateTime.copyWithTimeOfDay | |
+## Flutter
+
+| Command | Description |
+| ------- | ----------- |
+| TargetPlatformExt.isMobile | returns bool |
+| TargetPlatformExt.isDesktop | returns bool |
+| InputDecoration.completeWith(...) | returns a copy of `InputDecoration` by completing it with the attributes |
+| DataRow.copyWith(...) | returns a copy of `DataRow` with the new attributes |
+| DataRow.completeWith(...) | returns a copy of `DataRow` by completing it with the attributes |
+| DataCell.copyWith(...) | returns a copy of `DataCell` with the new attributes |
+| DataCell.completeWith(...) | returns a copy of `DataCell` by completing it with the attributes |
+
+
 ### Widgets
 
-#### Listenable
+#### Listenable - ChangeNotifier
 
 | Widget | Description |
 | ------- | ----------- |
-| ListenableBuilder | listen to a `Listenable` and construct the ui based on the changes |
-| ValueListenableBuilder | listen to a `Listenable` and construct the ui based on the changes only if they respect the 'condition' or the value does not change |
-| ListenableListener | to do... |
-| ValueListenableListener | to do... |
-| ConsumerListener | to do... |
-| ValueConsumerListener | to do... |
+| ChangeableProvider | ... |
+| ChangeableBuilder | listen to a `Listenable` and construct the ui based on the changes |
+| ChangeableListener | ... |
+| ChangeableConsumer | to do... |
+| ChangeableValueBuilder | listen to a `Listenable` and construct the ui based on the changes only if they respect the 'condition' or the value does not change |
+| ChangeableValueListener | to do... |
+| ChangeableValueConsumer | to do... |
 
 #### Others
 
