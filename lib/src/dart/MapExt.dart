@@ -1,11 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter_extensions/src/dart/internal.dart';
 import 'package:meta/meta.dart';
 
 extension MapExt<K, V> on Map<K, V> {
-  Iterable<T> generateIterable<T>(T Function(K key, V value) generator) {
-    return entries.map((entry) => generator(entry.key, entry.value));
-  }
+  Iterable<T> generateIterable<T>(T Function(K key, V value) generator) =>
+      MapUtility.generateIterable(entries, generator);
 
   void removeNullValues() => removeWhere((key, value) => value == null);
 
@@ -20,6 +20,10 @@ extension MapExt<K, V> on Map<K, V> {
     }
     return list;
   }
+
+  bool every(bool test(K key, V value)) => MapUtility.every(entries, test);
+
+  bool any(bool test(K key, V value)) => MapUtility.any(entries, test);
 }
 
 extension OrderMapExt<K extends num, V> on Map<K, V> {

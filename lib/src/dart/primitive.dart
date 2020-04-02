@@ -4,11 +4,11 @@ import 'package:rational/rational.dart';
 import 'package:basic_utils/basic_utils.dart' as bu;
 import 'package:quiver/strings.dart' as qvr;
 
-extension NumExt on num {
+extension NumExtDart on num {
   Rational toRational() => Rational.parse(toString());
 }
 
-extension StringExt on String {
+extension StringExtDart on String {
   /// helloWordGood => HELLO_WORD_GOOD
   String toUpperUnderscore() => bu.StringUtils.camelCaseToUpperUnderscore(this);
 
@@ -41,6 +41,28 @@ extension StringExt on String {
       substring(startAt, divideAt),
       substring(divideAt + 1, endAt),
     ];
+  }
+
+  String advSubString(int start, [int end]) {
+    if (start < 0) start += length;
+    return substring(start, end != null ? (end < 0 ? length + end : end) : null);
+  }
+
+  String trimBy(String trimmer) {
+    var string = this;
+    while (string.startsWith(trimmer)) {
+      string = string.substring(0, trimmer.length);
+    }
+    while (string.endsWith(trimmer)) {
+      string = string.advSubString(0, -trimmer.length);
+    }
+    return string;
+  }
+
+  String joinPath(String path) => '${trimBy('/')}/${path.trimBy('/')}';
+
+  String joinPaths(Iterable<String> paths) {
+    return '${trimBy('/')}/${paths.map((e) => e.trimBy('/')).join('/')}';
   }
 }
 

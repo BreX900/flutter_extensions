@@ -1,3 +1,10 @@
+## [0.2.6] - 2020/04/02
+- Add `generateIterable`, `every`, `any` on `Map` and `BuiltMap`
+
+## [0.2.5+4] - 2020/03/22
+
+- Add `Iterable.separate`, `Iterable.separateByContains`, `Iterable.expandByIterable`
+
 ## [0.2.3] - 2020/03/15
 
 - Add `ListenableBuilder`, `ValueListenableBuilder`

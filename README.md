@@ -8,14 +8,6 @@ Adds several extensions
 
 Extensions color code we thank "TinyColor"
 
-### Iterable<T>
-
-| Command | Description |
-| ------- | ----------- |
-| tryFirstWhereType<T>() | return a first element where type is T else null |
-| more | more |
-
-
 ### String
 
 | Command | Description |
@@ -24,16 +16,34 @@ Extensions color code we thank "TinyColor"
 | isBlank | if string is empty or contains only space returns true otherwise returns false |
 | ifBlank(() => 'text') | if string is empty or contains only space returns 'text' otherwise returns string |
 
+### Iterable<T>
+
+| Command | Description |
+| ------- | ----------- |
+| tryFirstWhereType<T>() | returns a first element where type is T else null |
+| separate(int Function(T) separator) | returns a `SeparatedResult` separated by separator |
+| separateByContains(Iterable<T> iterable) | returns a `SeparatedResult` separated by an iterable via contains method  |
+| List<T> expandByIterable(Iterable<T> another) | returns the two iterable joined | 
+
+### Map<K, V> - BuiltMap<K, V>
+
+| Command | Description |
+| ------- | ----------- |
+| generateIterable<K, V>(T Function(K key, V value) generator) | return List of MapEntry<K, V> |
+| every<K, V>(bool test(K key, V value)) |  |
+| any<K, V>(bool test(K key, V value)) |  |
+
 ## Dart - Flutter
 
 ### DateTime - Time
 
-| D | Command | Description |
-| ---- | ------- | ----------- |
-| + | DateTime.copyWith |  |
-| + | DateTime.copyWithPosition |  |
-| - | DateTime.toTimeOfDay | |
-| - | DateTime.copyWithTimeOfDay | |
+| T | Command | Description |
+| --- | ------- | ----------- |
+| D | DateTime.copyWith | |
+| D | DateTime.copyWithPosition |  |
+| F | DateTime.toTimeOfDay | |
+| F | DateTime.copyWithTimeOfDay | |
+
 ## Flutter
 
 | Command | Description |
@@ -67,5 +77,6 @@ Extensions color code we thank "TinyColor"
 | ------- | ----------- |
 | SizeCopier | Update a `SizeCopierController` with the size of the child |
 | SizeCopy | Create a SizedWidget taking inspiration from `SizeCopierController` |
+| FadeIndexStack | Animate the index widget on the `Stack` to enter and exit with a `FadeTransition` |
 
 

@@ -1,5 +1,6 @@
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
+import 'package:flutter_extensions/src/dart/internal.dart';
 import 'package:rxdart/rxdart.dart';
 
 extension ListBuilderExt<T> on ListBuilder<T> {
@@ -27,9 +28,12 @@ extension SetBuilderExt<T> on SetBuilder<T> {
 }
 
 extension BuiltMapExt<K, V> on BuiltMap<K, V> {
-  Iterable<T> generateIterable<T>(T Function(K key, V value) generator) {
-    return entries.map((entry) => generator(entry.key, entry.value));
-  }
+  Iterable<T> generateIterable<T>(T Function(K key, V value) generator) =>
+      MapUtility.generateIterable(entries, generator);
+
+  bool every(bool test(K key, V value)) => MapUtility.every(entries, test);
+
+  bool any(bool test(K key, V value)) => MapUtility.any(entries, test);
 }
 
 extension MapBuilderExt<K, V> on MapBuilder<K, V> {

@@ -13,12 +13,12 @@ extension IterableExt<T> on Iterable<T> {
     return res;
   }
 
-  SplittingResult<T> split(int Function(T value) splitter) {
+  SeparatedResult<T> separate(int Function(T) separator) {
     final less = <T>[];
     final equals = <T>[];
     final great = <T>[];
     for (var value in this) {
-      final res = splitter(value);
+      final res = separator(value);
       if (res == 0) {
         equals.add(value);
       } else if (res < 0) {
@@ -27,8 +27,19 @@ extension IterableExt<T> on Iterable<T> {
         great.add(value);
       }
     }
-    return SplittingResult._(less, equals, great);
+    return SeparatedResult._(less, equals, great);
   }
+
+  SeparatedResult<T> separateByContains(Iterable<T> iterable) {
+    final great = <T>[];
+    final equals = <T>[];
+    for (var value in this) {
+      (iterable.contains(value) ? equals.add : great.add)(value);
+    }
+    return SeparatedResult._(iterable.where((value) => !contains(value)).toList(), equals, great);
+  }
+
+  List<T> expandByIterable(Iterable<T> another) => List.of(this)..addAll(another);
 
   Iterable<T> whereNotContains(Iterable<T> badElements) {
     return where((item) => !badElements.contains(item));
@@ -36,8 +47,8 @@ extension IterableExt<T> on Iterable<T> {
 
   Iterable<T> whereNotNull() => where((value) => value == null);
 
-  Iterable<T> replaces(Map<T, T> replacement) {
-    return map((item) => replacement[item] ?? item);
+  Iterable<T> replaces(Map<T, T> replacements) {
+    return map((item) => replacements[item] ?? item);
   }
 
   T get tryFirst {
@@ -139,14 +150,16 @@ extension IterableExt<T> on Iterable<T> {
   }
 }
 
-class SplittingResult<T> {
+class SeparatedResult<T> {
   final List<T> less;
   final List<T> equals;
   final List<T> great;
 
-  SplittingResult._(this.less, this.equals, this.great);
+  SeparatedResult._(this.less, this.equals, this.great);
 
   List<T> get lessAndEquals => [...less, ...equals];
+  List<T> get equalsAndGreat => [...equals, ...great];
+  List<T> get greatAndLess => [...great, ...less];
 }
 
 extension IterableMapEntryExt<K, V> on Iterable<MapEntry<K, V>> {
