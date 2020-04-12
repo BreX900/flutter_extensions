@@ -71,6 +71,18 @@ Extensions color code we thank "TinyColor"
 | ChangeableValueListener | to do... |
 | ChangeableValueConsumer | to do... |
 
+#### RxStream
+Listen to a `Stream` or `StreamValue` and filtering by previous e current state
+Not repeat data or `AsyncSnapshot`
+| Widget | Description |
+| ------- | ----------- |
+| RxStreamConsumer | Construct the `Widget` based on the `AsyncSnapshot` and notify change `AsyncSnapshot`  |
+| RxStreamBuilder | Construct the `Widget` based on the `AsyncSnapshot` |
+| RxStreamListener | Notify change `AsyncSnapshot` |
+| ValueStreamConsumer | Construct the `Widget` based on the data and notify change data |
+| ValueStreamBuilder | Construct the `Widget` based on the data |
+| ValueStreamListener | Notify change data |
+
 #### Others
 
 | Widget | Description |

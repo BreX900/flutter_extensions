@@ -6,6 +6,8 @@ export 'src/color/ColorExt.dart';
 export 'src/color/HslColor.dart';
 export 'src/ColorSchemeExt.dart';
 
+export 'src/widgets/stream/RxStreamConsumer.dart';
+export 'src/widgets/stream/ValueStreamConsumer.dart';
 export 'src/widgets/ListenableBuilder.dart';
 export 'src/widgets/SizeCopier.dart';
 

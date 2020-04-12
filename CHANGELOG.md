@@ -1,3 +1,6 @@
+## [0.2.7] - 2020/04/12
+- Add `RxStreamConsumer`, `RxStreamBuilder`, `RxStreamListener` and `ValueStreamConsumer`, `ValueStreamBuilder`, `ValueStreamListener`
+
 ## [0.2.6] - 2020/04/02
 - Add `generateIterable`, `every`, `any` on `Map` and `BuiltMap`
 
