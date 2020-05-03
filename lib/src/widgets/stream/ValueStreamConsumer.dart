@@ -5,7 +5,7 @@ import 'package:rxdart/streams.dart';
 class ValueStreamConsumer<T> extends _ValueStreamConsumer<T>
     with RxStreamListenerBase<T>, RxStreamBuilderBase<T> {
   final bool Function(T p, T c) listenWhen;
-  final void Function(T data) listener;
+  final void Function(BuildContext context, T data) listener;
   final bool Function(T p, T c) buildWhen;
   final Widget Function(BuildContext context, T data) builder;
 
@@ -30,7 +30,7 @@ class _ValueStreamConsumerState<T> extends __ValueStreamConsumerState<ValueStrea
 
 class ValueStreamListener<T> extends _ValueStreamConsumer<T> with RxStreamListenerBase<T> {
   final bool Function(T p, T c) listenWhen;
-  final void Function(T data) listener;
+  final void Function(BuildContext context, T data) listener;
   final Widget child;
 
   ValueStreamListener({

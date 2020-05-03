@@ -17,7 +17,7 @@ abstract class RxStreamConditions {
 class RxStreamConsumer<T> extends _AsyncRxStreamConsumer<T>
     with RxStreamListenerBase<AsyncSnapshot<T>>, RxStreamBuilderBase<AsyncSnapshot<T>> {
   final bool Function(AsyncSnapshot<T> p, AsyncSnapshot<T> c) listenWhen;
-  final void Function(AsyncSnapshot<T> snapshot) listener;
+  final void Function(BuildContext context, AsyncSnapshot<T> snapshot) listener;
   final bool Function(AsyncSnapshot<T> p, AsyncSnapshot<T> c) buildWhen;
   final AsyncWidgetBuilder<T> builder;
 
@@ -42,7 +42,7 @@ class _RxStreamConsumerState<T> extends _AsyncRxStreamConsumerState<RxStreamCons
 
 class RxStreamListener<T> extends _AsyncRxStreamConsumer<T> with RxStreamListenerBase<AsyncSnapshot<T>> {
   final bool Function(AsyncSnapshot<T> p, AsyncSnapshot<T> c) listenWhen;
-  final void Function(AsyncSnapshot<T> snapshot) listener;
+  final void Function(BuildContext context, AsyncSnapshot<T> snapshot) listener;
   final Widget child;
 
   RxStreamListener({

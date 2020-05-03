@@ -186,3 +186,33 @@ class CompositeMapSubscription {
     return result;
   }
 }
+
+class SubjectTransformer<T> extends Subject<T> {
+  SubjectTransformer._(StreamController<T> controller, Stream<T> Function(Stream<T> stream) transformer)
+      : super(controller, transformer(controller.stream));
+
+  SubjectTransformer.publish(Stream<T> Function(Stream<T> stream) transformer)
+      : this._(PublishSubject(), transformer);
+
+  SubjectTransformer.behaviour(Stream<T> Function(Stream<T> stream) transformer)
+      : this._(BehaviorSubject(), transformer);
+
+  SubjectTransformer.behaviourSeed(Stream<T> Function(Stream<T> stream) transformer, T seedValue)
+      : this._(BehaviorSubject.seeded(seedValue), transformer);
+
+  SubjectTransformer.replay(Stream<T> Function(Stream<T> stream) transformer)
+      : this._(ReplaySubject(), transformer);
+
+  @override
+  StreamController<T> createForwardingController({
+    void Function() onListen,
+    void Function() onCancel,
+    bool sync = false,
+  }) {
+    return PublishSubject(
+      onListen: onListen,
+      onCancel: onCancel,
+      sync: sync,
+    );
+  }
+}

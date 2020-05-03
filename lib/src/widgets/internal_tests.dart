@@ -1,8 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_extensions/src/dart/IterableExt.dart';
-import 'package:flutter_extensions/src/dart/MapExt.dart';
 
 class AnimatedStack extends StatefulWidget {
   final Duration duration;
@@ -59,10 +55,11 @@ class _AnimatedStackState extends State<AnimatedStack> with TickerProviderStateM
         }
         // nuovo
         if (newKey != null) {
-          newEntries[newKey] = (_entries[newKey] ?? _Entry(newController, null))..child = widget.children[newKey];
+          newEntries[newKey] = (_entries[newKey] ?? _Entry(newController, null))
+            ..child = widget.children[newKey];
         }
       }
-    } while(newKey != null || oldKey != null);
+    } while (newKey != null || oldKey != null);
     setState(() {
       _entries = newEntries;
       newController.forward();

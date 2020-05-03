@@ -17,4 +17,25 @@ abstract class MapUtility {
     }
     return false;
   }
+
+  static T getElementAfter<T>(Iterable<T> elements, T element, [int after = 1]) {
+    final iterator = elements.iterator;
+    while (iterator.moveNext() && iterator.current != element) {}
+    while (iterator.moveNext()) {
+      if (--after <= 0) return iterator.current;
+    }
+    return null;
+  }
+
+  static T getElementBefore<T>(Iterable<T> elements, T element, [int before = 1]) {
+    final findIterator = elements.iterator;
+    final iterator = elements.iterator;
+
+    while (--before > 0 && findIterator.moveNext()) {}
+    while (findIterator.moveNext()) {
+      if (findIterator.current == element) return iterator.current;
+      iterator.moveNext();
+    }
+    return null;
+  }
 }

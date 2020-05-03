@@ -1,6 +1,3 @@
-import 'package:meta/meta.dart';
-import 'package:quiver/core.dart';
-
 class Value<T> {
   final T value;
 

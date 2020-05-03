@@ -24,6 +24,10 @@ extension MapExt<K, V> on Map<K, V> {
   bool every(bool test(K key, V value)) => MapUtility.every(entries, test);
 
   bool any(bool test(K key, V value)) => MapUtility.any(entries, test);
+
+  K getKeyAfter(K key, [int after = 1]) => MapUtility.getElementAfter(keys, key, after);
+
+  K getKeyBefore(K key, [int before = 1]) => MapUtility.getElementBefore(keys, key, before);
 }
 
 extension OrderMapExt<K extends num, V> on Map<K, V> {

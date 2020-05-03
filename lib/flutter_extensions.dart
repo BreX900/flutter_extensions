@@ -8,8 +8,10 @@ export 'src/ColorSchemeExt.dart';
 
 export 'src/widgets/stream/RxStreamConsumer.dart';
 export 'src/widgets/stream/ValueStreamConsumer.dart';
+export 'src/widgets/focus.dart';
 export 'src/widgets/ListenableBuilder.dart';
 export 'src/widgets/SizeCopier.dart';
+export 'src/widgets/widget_child.dart';
 
 export 'src/flutter/DateTimeExt.dart';
 

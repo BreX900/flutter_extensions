@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 
 mixin RxStreamListenerBase<S> on StatefulWidget {
   bool Function(S p, S c) get listenWhen;
-  void Function(S snapshot) get listener;
+  void Function(BuildContext context, S snapshot) get listener;
 }
 
 mixin RxStreamListenerBaseState<W extends RxStreamListenerBase<S>, S, T>
@@ -12,7 +12,7 @@ mixin RxStreamListenerBaseState<W extends RxStreamListenerBase<S>, S, T>
   @override
   bool onUpdate(S previous, S current) {
     if (widget.listenWhen == null || widget.listenWhen(previous, current)) {
-      widget.listener(current);
+      widget.listener(context, current);
     }
     return super.onUpdate(previous, current);
   }
@@ -94,7 +94,7 @@ abstract class RxStreamConsumerBaseState<W extends StatefulWidget, S, T> extends
   }
 
   void _update(S newSummary) {
-    if (summary != newSummary && onUpdate(summary, newSummary)) return;
+    if (onUpdate(summary, newSummary)) return;
     summary = newSummary;
   }
 

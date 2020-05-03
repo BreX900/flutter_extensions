@@ -1,3 +1,6 @@
+## [0.2.8] - 2020/04/12
+- Add `Map.getKeyAfter`, `Map.getKeyBefore`
+
 ## [0.2.7] - 2020/04/12
 - Add `RxStreamConsumer`, `RxStreamBuilder`, `RxStreamListener` and `ValueStreamConsumer`, `ValueStreamBuilder`, `ValueStreamListener`
 
