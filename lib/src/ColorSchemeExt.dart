@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 extension ColorSchemeExt on ColorScheme {
-  ThemeData toTheme({TextTheme textTheme, ButtonThemeData buttonTheme}) {
+  ThemeData toTheme(
+      {TextTheme textTheme,
+      ButtonThemeData buttonTheme,
+      SnackBarThemeData snackBarTheme,
+      VisualDensity visualDensity}) {
     final bool isDark = brightness == Brightness.dark;
 
     // For surfaces that use primary color in light themes and surface color in dark
@@ -9,7 +13,6 @@ extension ColorSchemeExt on ColorScheme {
     final Color onPrimarySurfaceColor = isDark ? onSurface : onPrimary;
 
     return ThemeData(
-      brightness: brightness,
       primaryColor: primarySurfaceColor,
       primaryColorBrightness: ThemeData.estimateBrightnessForColor(primarySurfaceColor),
       canvasColor: background,
@@ -30,6 +33,8 @@ extension ColorSchemeExt on ColorScheme {
       /// Extra
       buttonColor: secondary,
       buttonTheme: buttonTheme,
+      snackBarTheme: snackBarTheme,
+      visualDensity: visualDensity,
     );
   }
 }

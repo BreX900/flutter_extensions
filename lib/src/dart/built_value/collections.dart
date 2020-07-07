@@ -1,7 +1,21 @@
+import 'dart:math';
+
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:flutter_extensions/src/dart/internal.dart';
 import 'package:rxdart/rxdart.dart';
+
+extension BuiltListExt<T> on BuiltList<T> {
+  T random({Random random}) {
+    if (random != null) {
+      return this[random.nextInt(length)];
+    } else {
+      return this[DateTime.now().microsecond % length];
+    }
+  }
+
+  T circleGet(int index) => this[index % length];
+}
 
 extension ListBuilderExt<T> on ListBuilder<T> {
   void removeWhereNull() => removeWhere((value) => value == null);
@@ -13,6 +27,10 @@ extension ListBuilderExt<T> on ListBuilder<T> {
       remove(value);
     }
   }
+
+  T random(Random random) => this[random.nextInt(length)];
+
+  T circleGet(int index) => this[index % length];
 }
 
 extension SetBuilderExt<T> on SetBuilder<T> {

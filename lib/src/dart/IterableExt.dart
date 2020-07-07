@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:built_collection/built_collection.dart';
 
@@ -148,6 +150,8 @@ extension IterableExt<T> on Iterable<T> {
     }
     return book.build();
   }
+
+  Future forEachFutures(FutureOr action(T element)) => Future.forEach<T>(this, action);
 }
 
 class SeparatedResult<T> {
@@ -166,6 +170,11 @@ extension IterableMapEntryExt<K, V> on Iterable<MapEntry<K, V>> {
   Map<K, V> toMap() => Map.fromEntries(this);
   Iterable<V> get values => map((entry) => entry.value);
   Iterable<K> get keys => map((entry) => entry.key);
+}
+
+extension IterableExtFuture<T> on Iterable<Future<T>> {
+  Future<List<T>> waitFutures() => Future.wait(this);
+  Future<T> anyFutures() => Future.any(this);
 }
 
 extension ListExt<T> on List<T> {
@@ -200,6 +209,16 @@ extension ListExt<T> on List<T> {
   List<T> dynamicSublist([int start = 0, int end]) {
     return sublist(start, end == null ? length : (end < 0 ? length - end : end));
   }
+
+  T random({Random random}) {
+    if (random != null) {
+      return this[random.nextInt(length)];
+    } else {
+      return this[DateTime.now().microsecond % length];
+    }
+  }
+
+  T circleGet(int index) => this[index % length];
 }
 
 extension SetExt<T> on Set<T> {

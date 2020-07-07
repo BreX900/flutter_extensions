@@ -16,6 +16,9 @@ Extensions color code we thank "TinyColor"
 | isBlank | if string is empty or contains only space returns true otherwise returns false |
 | ifBlank(() => 'text') | if string is empty or contains only space returns 'text' otherwise returns string |
 
+### num
+They are extended with the methods of the 'math' package
+
 ### Iterable<T>
 
 | Command | Description |

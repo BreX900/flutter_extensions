@@ -1,6 +1,6 @@
 name: flutter_extensions
 description: A new Flutter project.
-version: 0.3.1
+version: 0.3.6
 author: BreX900
 homepage: https://github.com/BreX900/flutter_extensions
 
@@ -16,15 +16,15 @@ dependencies:
 
   tinycolor: ^1.0.2
   rational: ^0.3.8
-  basic_utils: ^2.5.3
+  basic_utils: ^2.5.4
   quiver: ^2.0.5
   meta: ^1.1.8
 
   built_value: ^7.1.0
   built_collection: ^4.3.2
-  rxdart: ^0.24.0
+  rxdart: ^0.24.1
 
-  provider: ^4.0.5+1
+  provider: ^4.1.3
 
   flutter_keyboard_visibility: ^2.0.0
 

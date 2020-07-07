@@ -145,34 +145,48 @@ extension FutureDartExt<T> on Future<T> {
       });
 }
 
-class CompositeMapSubscription {
+class CompositeMapSubscription<K> {
   bool _isDisposed = false;
   bool get isDisposed => _isDisposed;
 
-  final _subscriptions = <Object, StreamSubscription<dynamic>>{};
+  final _subscriptions = <K, StreamSubscription<dynamic>>{};
 
-  StreamSubscription<T> add<T>(Object key, StreamSubscription<T> subscription) {
+  void _check() {
     if (isDisposed) {
       throw ('This composite was disposed, try to use new instance instead');
     }
+  }
+
+  StreamSubscription<T> add<T>(K key, StreamSubscription<T> subscription) {
+    _check();
     _subscriptions[key] = subscription;
     return subscription;
   }
 
-  StreamSubscription<T> putIfAbsent<T>(Object key, StreamSubscription<T> Function() ifAbsent) {
-    if (isDisposed) {
-      throw ('This composite was disposed, try to use new instance instead');
-    }
+  StreamSubscription<T> putIfAbsent<T>(K key, StreamSubscription<T> Function() ifAbsent) {
+    _check();
     return _subscriptions.putIfAbsent(key, ifAbsent);
   }
 
-  StreamSubscription<T> get<T>(Object key) => _subscriptions[key];
+  StreamSubscription<T> get<T>(K key) => _subscriptions[key];
 
-  bool containsKey(Object key) => _subscriptions.containsKey(key);
+  bool containsKey(K key) => _subscriptions.containsKey(key);
 
   bool containsSubscription(StreamSubscription subscription) => _subscriptions.containsValue(subscription);
 
-  Future<dynamic> remove(Object key) => _subscriptions.remove(key)?.cancel();
+  Future<dynamic> cancel(K key) => _subscriptions.remove(key).cancel();
+
+  Future<dynamic> cancelWhere(bool Function(K key, StreamSubscription subscription) fn) {
+    final futures = <Future>[];
+    _subscriptions.removeWhere((key, subscription) {
+      if (fn(key, subscription)) {
+        futures.add(subscription.cancel());
+        return true;
+      }
+      return false;
+    });
+    return Future.wait(futures);
+  }
 
   Future<void> clear() {
     final result = Future.wait(_subscriptions.values.map((subscription) => subscription.cancel()));
@@ -184,6 +198,12 @@ class CompositeMapSubscription {
     final result = clear();
     _isDisposed = true;
     return result;
+  }
+}
+
+extension SubscriptionCompositeExtension on StreamSubscription {
+  void addToByKey<K>(CompositeMapSubscription<K> subscriber, K key) {
+    subscriber.add(key, this);
   }
 }
 
