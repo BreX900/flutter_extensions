@@ -14,7 +14,7 @@ extension InputDecorationExt on InputDecoration {
     String errorText,
     TextStyle errorStyle,
     int errorMaxLines,
-    bool hasFloatingPlaceholder,
+    FloatingLabelBehavior floatingLabelBehavior,
     bool isDense,
     EdgeInsetsGeometry contentPadding,
     Widget prefixIcon,
@@ -55,7 +55,7 @@ extension InputDecorationExt on InputDecoration {
       errorText: this.errorText ?? errorText,
       errorStyle: this.errorStyle ?? errorStyle,
       errorMaxLines: this.errorMaxLines ?? errorMaxLines,
-      hasFloatingPlaceholder: this.hasFloatingPlaceholder ?? hasFloatingPlaceholder,
+      floatingLabelBehavior: this.floatingLabelBehavior ?? floatingLabelBehavior,
       isDense: this.isDense ?? isDense,
       contentPadding: this.contentPadding ?? contentPadding,
       prefixIcon: this.prefixIcon ?? prefixIcon,
@@ -134,24 +134,4 @@ extension DataCellExt on DataCell {
       onTap: this.onTap ?? onTap,
     );
   }
-}
-
-extension BuildContextExt on BuildContext {
-  ThemeData theme({bool shadowThemeOnly = false}) =>
-      Theme.of(this, shadowThemeOnly: shadowThemeOnly);
-
-  DefaultTextStyle defaultTextStyle() => DefaultTextStyle.of(this);
-
-  IconThemeData iconTheme() => IconTheme.of(this);
-
-  /// Localizations
-
-  T localizations<T>() => Localizations.of<T>(this, T);
-
-  Locale locale({bool nullOk = false}) => Localizations.localeOf(this, nullOk: nullOk);
-}
-
-extension TargetPlatformExt on TargetPlatform {
-  bool get isMobile => this == TargetPlatform.android || this == TargetPlatform.iOS;
-  bool get isDesktop => this == TargetPlatform.fuchsia;
 }

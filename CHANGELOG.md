@@ -1,3 +1,7 @@
+## [1.0.0] - 2020/10/15
+- Restyle code
+- Add KeyboardRemover
+
 ## [0.2.8] - 2020/04/12
 - Add `Map.getKeyAfter`, `Map.getKeyBefore`
 

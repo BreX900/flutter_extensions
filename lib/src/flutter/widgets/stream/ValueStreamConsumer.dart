@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_extensions/src/widgets/stream/RxStreamConsumerBase.dart';
+import 'package:flutter_extensions/src/flutter/widgets/stream/RxStreamConsumerBase.dart';
 import 'package:rxdart/streams.dart';
 
 class ValueStreamConsumer<T> extends _ValueStreamConsumer<T>
@@ -23,12 +23,14 @@ class ValueStreamConsumer<T> extends _ValueStreamConsumer<T>
   _ValueStreamConsumerState<T> createState() => _ValueStreamConsumerState();
 }
 
-class _ValueStreamConsumerState<T> extends __ValueStreamConsumerState<ValueStreamConsumer<T>, T>
+class _ValueStreamConsumerState<T>
+    extends __ValueStreamConsumerState<ValueStreamConsumer<T>, T>
     with
         RxStreamListenerBaseState<ValueStreamConsumer<T>, T, T>,
         RxStreamBuilderBaseState<ValueStreamConsumer<T>, T, T> {}
 
-class ValueStreamListener<T> extends _ValueStreamConsumer<T> with RxStreamListenerBase<T> {
+class ValueStreamListener<T> extends _ValueStreamConsumer<T>
+    with RxStreamListenerBase<T> {
   final bool Function(T p, T c) listenWhen;
   final void Function(BuildContext context, T data) listener;
   final Widget child;
@@ -46,7 +48,8 @@ class ValueStreamListener<T> extends _ValueStreamConsumer<T> with RxStreamListen
   _ValueStreamListenerState<T> createState() => _ValueStreamListenerState();
 }
 
-class _ValueStreamListenerState<T> extends __ValueStreamConsumerState<ValueStreamListener<T>, T>
+class _ValueStreamListenerState<T>
+    extends __ValueStreamConsumerState<ValueStreamListener<T>, T>
     with RxStreamListenerBaseState<ValueStreamListener<T>, T, T> {
   @override
   Widget build(BuildContext context) => widget.child;
@@ -68,14 +71,17 @@ class ValueStreamBuilder<T> extends _ValueStreamConsumer<T> with RxStreamBuilder
   _ValueStreamBuilderState<T> createState() => _ValueStreamBuilderState<T>();
 }
 
-class _ValueStreamBuilderState<T> extends __ValueStreamConsumerState<ValueStreamBuilder<T>, T>
+class _ValueStreamBuilderState<T>
+    extends __ValueStreamConsumerState<ValueStreamBuilder<T>, T>
     with RxStreamBuilderBaseState<ValueStreamBuilder<T>, T, T> {}
 
 abstract class _ValueStreamConsumer<T> extends StatefulWidget {
   final T initialValue;
   final Stream<T> stream;
 
-  const _ValueStreamConsumer({Key key, @required this.initialValue, @required this.stream}) : super(key: key);
+  const _ValueStreamConsumer(
+      {Key key, @required this.initialValue, @required this.stream})
+      : super(key: key);
 
   @override
   __ValueStreamConsumerState<_ValueStreamConsumer<T>, T> createState();

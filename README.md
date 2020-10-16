@@ -92,6 +92,6 @@ Not repeat data or `AsyncSnapshot`
 | ------- | ----------- |
 | SizeCopier | Update a `SizeCopierController` with the size of the child |
 | SizeCopy | Create a SizedWidget taking inspiration from `SizeCopierController` |
-| FadeIndexStack | Animate the index widget on the `Stack` to enter and exit with a `FadeTransition` |
+| KeyboardRemover | Close the keyboard when use press on the screen |
 
 

@@ -1,10 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
-import 'dart:math';
 
-import 'package:built_collection/built_collection.dart';
-
-extension IterableExt<T> on Iterable<T> {
+extension IterableExtensions<T> on Iterable<T> {
   Iterable<T> get nullIfEmpty => isEmpty ? null : this;
 
   Map<int, T> judgeElements(int Function(T) judges) {
@@ -38,16 +34,15 @@ extension IterableExt<T> on Iterable<T> {
     for (var value in this) {
       (iterable.contains(value) ? equals.add : great.add)(value);
     }
-    return SeparatedResult._(iterable.where((value) => !contains(value)).toList(), equals, great);
+    return SeparatedResult._(
+        iterable.where((value) => !contains(value)).toList(), equals, great);
   }
-
-  List<T> expandByIterable(Iterable<T> another) => List.of(this)..addAll(another);
 
   Iterable<T> whereNotContains(Iterable<T> badElements) {
     return where((item) => !badElements.contains(item));
   }
 
-  Iterable<T> whereNotNull() => where((value) => value == null);
+  Iterable<T> whereNotNull() => where((value) => value != null);
 
   Iterable<T> replaces(Map<T, T> replacements) {
     return map((item) => replacements[item] ?? item);
@@ -69,7 +64,8 @@ extension IterableExt<T> on Iterable<T> {
     }
   }
 
-  V tryFirstWhereType<V>() => firstWhere((element) => element is V, orElse: () => null) as V;
+  V tryFirstWhereType<V>() =>
+      firstWhere((element) => element is V, orElse: () => null) as V;
 
   Iterable<N> doubleMap<N>(N Function(T, T) converter) {
     final it = iterator;
@@ -105,22 +101,36 @@ extension IterableExt<T> on Iterable<T> {
 
   Iterable<T> joinElement(T element) => joinBuilder((index) => element);
 
-  Map<K, V> generateMap<K, V>(MapEntry<K, V> Function(T) generator) {
-    return map(generator).toMap();
-  }
-
   bool containsAll(Iterable<T> other) {
     if (identical(other, this)) return true;
     if (other.length != length) return false;
     return other.every(contains);
   }
 
-  Map<String, dynamic> deserialize() {
-    final iterator = this.iterator;
-    final map = <String, dynamic>{};
-    while (iterator.moveNext()) {
-      final key = iterator.current as String;
-      map[key] = iterator.moveNext() ? iterator.current : null;
+  // Map<String, dynamic> deserialize() {
+  //   final iterator = this.iterator;
+  //   final map = <String, dynamic>{};
+  //   while (iterator.moveNext()) {
+  //     final key = iterator.current as String;
+  //     map[key] = iterator.moveNext() ? iterator.current : null;
+  //   }
+  //   return map;
+  // }
+
+  Map<K, V> generateMap<K, V>(MapEntry<K, V> Function(T) generator) {
+    return map(generator).toMap();
+  }
+
+  Map<K, List<V>> generateMapList<K, V>(
+      MapEntry<K, V> Function(T element) generator) {
+    final map = <K, List<V>>{};
+    for (var element in this) {
+      final entry = generator(element);
+      var list = map[entry.key];
+      if (list == null) {
+        map[entry.key] = list = <V>[];
+      }
+      list.add(entry.value);
     }
     return map;
   }
@@ -131,27 +141,13 @@ extension IterableExt<T> on Iterable<T> {
     var book = <int, List<T>>{};
     int pageCount = 0;
     var list = this;
-    while (list.isNotEmpty && (numberOfPages == null || pageCount < numberOfPages)) {
+    while (list.isNotEmpty &&
+        (numberOfPages == null || pageCount < numberOfPages)) {
       book[pageCount++] = this.take(valuesPerPage).toList();
       list = list.skip(valuesPerPage);
     }
     return book;
   }
-
-  BuiltMap<int, BuiltList<T>> generateBuiltBook({int valuesPerPage, int numberOfPages}) {
-    if (valuesPerPage == null && numberOfPages == null) return BuiltMap.of({0: this});
-    valuesPerPage ??= this.length ~/ numberOfPages;
-    var book = MapBuilder<int, BuiltList<T>>();
-    int pageCount = 0;
-    var list = this;
-    while (list.isNotEmpty && (numberOfPages == null || pageCount < numberOfPages)) {
-      book[pageCount++] = BuiltList.of(list.take(valuesPerPage));
-      list = list.skip(valuesPerPage);
-    }
-    return book.build();
-  }
-
-  Future forEachFutures(FutureOr action(T element)) => Future.forEach<T>(this, action);
 }
 
 class SeparatedResult<T> {
@@ -174,61 +170,6 @@ extension IterableMapEntryExt<K, V> on Iterable<MapEntry<K, V>> {
 
 extension IterableExtFuture<T> on Iterable<Future<T>> {
   Future<List<T>> waitFutures() => Future.wait(this);
+
   Future<T> anyFutures() => Future.any(this);
-}
-
-extension ListExt<T> on List<T> {
-  static List<E> nullGenerator<E>(E Function(int) builder, {int itemCount}) {
-    final newList = <E>[];
-    E element;
-    for (var i = 0; itemCount != null ? i < itemCount : true; i++) {
-      element = builder(i);
-      if (element == null) break;
-      newList.add(element);
-    }
-    return newList;
-  }
-
-  static List<T> createListIfNotNull<T>(T newValue) {
-    if (newValue != null) return [newValue];
-    return null;
-  }
-
-  String serialize() => jsonEncode(this);
-
-  void removeWhereNull() => removeWhere((value) => value == null);
-
-  void addOrRemove(bool addOrRemove, T value) {
-    if (addOrRemove) {
-      add(value);
-    } else {
-      remove(value);
-    }
-  }
-
-  List<T> dynamicSublist([int start = 0, int end]) {
-    return sublist(start, end == null ? length : (end < 0 ? length - end : end));
-  }
-
-  T random({Random random}) {
-    if (random != null) {
-      return this[random.nextInt(length)];
-    } else {
-      return this[DateTime.now().microsecond % length];
-    }
-  }
-
-  T circleGet(int index) => this[index % length];
-}
-
-extension SetExt<T> on Set<T> {
-  void removeWhereNull() => removeWhere((value) => value == null);
-
-  void addOrRemove(bool addOrRemove, T value) {
-    if (addOrRemove) {
-      add(value);
-    } else {
-      remove(value);
-    }
-  }
 }

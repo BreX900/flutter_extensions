@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:flutter_extensions/src/dart/internal.dart';
+import 'package:flutter_extensions/src/dart/collections/internal.dart';
 import 'package:meta/meta.dart';
 
-extension MapExt<K, V> on Map<K, V> {
+extension MapExtensions<K, V> on Map<K, V> {
   Iterable<T> generateIterable<T>(T Function(K key, V value) generator) =>
       MapUtility.generateIterable(entries, generator);
 
@@ -27,7 +27,8 @@ extension MapExt<K, V> on Map<K, V> {
 
   K getKeyAfter(K key, [int after = 1]) => MapUtility.getElementAfter(keys, key, after);
 
-  K getKeyBefore(K key, [int before = 1]) => MapUtility.getElementBefore(keys, key, before);
+  K getKeyBefore(K key, [int before = 1]) =>
+      MapUtility.getElementBefore(keys, key, before);
 }
 
 extension OrderMapExt<K extends num, V> on Map<K, V> {

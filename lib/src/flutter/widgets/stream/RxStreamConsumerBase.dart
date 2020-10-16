@@ -26,14 +26,13 @@ mixin RxStreamBuilderBase<S> on StatefulWidget {
 mixin RxStreamBuilderBaseState<W extends RxStreamBuilderBase<S>, S, T> on RxStreamConsumerBaseState<W, S, T> {
   @override
   bool onUpdate(S previous, S current) {
-    final isUpdated = super.onUpdate(previous, current);
-    if (!isUpdated && (widget.buildWhen == null || widget.buildWhen(previous, current))) {
+    final res = super.onUpdate(previous, current);
+    if (!res && (widget.buildWhen == null || widget.buildWhen(previous, current))) {
       setState(() {
         summary = current;
       });
-      return true;
     }
-    return isUpdated;
+    return true;
   }
 
   @override

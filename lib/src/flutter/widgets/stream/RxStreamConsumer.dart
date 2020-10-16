@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_extensions/src/widgets/stream/RxStreamConsumerBase.dart';
+import 'package:flutter_extensions/src/flutter/widgets/stream/RxStreamConsumerBase.dart';
 import 'package:rxdart/streams.dart';
 
 abstract class RxStreamConditions {
@@ -35,12 +35,14 @@ class RxStreamConsumer<T> extends _AsyncRxStreamConsumer<T>
   _RxStreamConsumerState<T> createState() => _RxStreamConsumerState();
 }
 
-class _RxStreamConsumerState<T> extends _AsyncRxStreamConsumerState<RxStreamConsumer<T>, T>
+class _RxStreamConsumerState<T>
+    extends _AsyncRxStreamConsumerState<RxStreamConsumer<T>, T>
     with
         RxStreamListenerBaseState<RxStreamConsumer<T>, AsyncSnapshot<T>, T>,
         RxStreamBuilderBaseState<RxStreamConsumer<T>, AsyncSnapshot<T>, T> {}
 
-class RxStreamListener<T> extends _AsyncRxStreamConsumer<T> with RxStreamListenerBase<AsyncSnapshot<T>> {
+class RxStreamListener<T> extends _AsyncRxStreamConsumer<T>
+    with RxStreamListenerBase<AsyncSnapshot<T>> {
   final bool Function(AsyncSnapshot<T> p, AsyncSnapshot<T> c) listenWhen;
   final void Function(BuildContext context, AsyncSnapshot<T> snapshot) listener;
   final Widget child;
@@ -58,13 +60,15 @@ class RxStreamListener<T> extends _AsyncRxStreamConsumer<T> with RxStreamListene
   _RxStreamListenerState<T> createState() => _RxStreamListenerState();
 }
 
-class _RxStreamListenerState<T> extends _AsyncRxStreamConsumerState<RxStreamListener<T>, T>
+class _RxStreamListenerState<T>
+    extends _AsyncRxStreamConsumerState<RxStreamListener<T>, T>
     with RxStreamListenerBaseState<RxStreamListener<T>, AsyncSnapshot<T>, T> {
   @override
   Widget build(BuildContext context) => widget.child;
 }
 
-class RxStreamBuilder<T> extends _AsyncRxStreamConsumer<T> with RxStreamBuilderBase<AsyncSnapshot<T>> {
+class RxStreamBuilder<T> extends _AsyncRxStreamConsumer<T>
+    with RxStreamBuilderBase<AsyncSnapshot<T>> {
   @override
   final bool Function(AsyncSnapshot<T> p, AsyncSnapshot<T> c) buildWhen;
   @override
@@ -89,7 +93,8 @@ abstract class _AsyncRxStreamConsumer<T> extends StatefulWidget {
   final T initialValue;
   final Stream<T> stream;
 
-  const _AsyncRxStreamConsumer({Key key, @required this.initialValue, @required this.stream})
+  const _AsyncRxStreamConsumer(
+      {Key key, @required this.initialValue, @required this.stream})
       : super(key: key);
 
   @override
@@ -103,7 +108,8 @@ abstract class _AsyncRxStreamConsumerState<W extends _AsyncRxStreamConsumer<T>, 
 
   @override
   AsyncSnapshot<T> initial() {
-    if (widget.initialValue != null) return AsyncSnapshot.withData(ConnectionState.none, widget.initialValue);
+    if (widget.initialValue != null)
+      return AsyncSnapshot.withData(ConnectionState.none, widget.initialValue);
     return AsyncSnapshot.nothing();
   }
 
@@ -125,8 +131,10 @@ abstract class _AsyncRxStreamConsumerState<W extends _AsyncRxStreamConsumer<T>, 
       AsyncSnapshot.withError(ConnectionState.active, error);
 
   @override
-  AsyncSnapshot<T> afterDone(AsyncSnapshot<T> current) => current.inState(ConnectionState.done);
+  AsyncSnapshot<T> afterDone(AsyncSnapshot<T> current) =>
+      current.inState(ConnectionState.done);
 
   @override
-  AsyncSnapshot<T> afterDisconnected(AsyncSnapshot<T> current) => current.inState(ConnectionState.none);
+  AsyncSnapshot<T> afterDisconnected(AsyncSnapshot<T> current) =>
+      current.inState(ConnectionState.none);
 }
