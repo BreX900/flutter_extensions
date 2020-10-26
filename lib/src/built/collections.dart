@@ -51,11 +51,14 @@ extension BuiltMapExt<K, V> on BuiltMap<K, V> {
 
   bool any(bool test(K key, V value)) => MapUtility.any(entries, test);
 
-  K getKeyAfter(K key, [int after = 1]) =>
-      MapUtility.getElementAfter(keys, key, after);
+  K getKeyAfter(K key, [int after = 1]) => MapUtility.getElementAfter(keys, key, after);
 
-  K getKeyBefore(K key, [int before = 1]) =>
-      MapUtility.getElementBefore(keys, key, before);
+  K getKeyBefore(K key, [int before = 1]) => MapUtility.getElementBefore(keys, key, before);
+
+  BuiltMap<K, V> where(bool Function(K, V) predicate) =>
+      (toBuilder()..removeWhere(predicate)).build();
+
+  BuiltMap<K, V> whereValueIs(V value) => (toBuilder()..removeWhere((k, v) => v == value)).build();
 }
 
 extension MapBuilderExt<K, V> on MapBuilder<K, V> {

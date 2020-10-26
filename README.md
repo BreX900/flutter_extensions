@@ -28,6 +28,10 @@ They are extended with the methods of the 'math' package
 | separateByContains(Iterable<T> iterable) | returns a `SeparatedResult` separated by an iterable via contains method  |
 | List<T> expandByIterable(Iterable<T> another) | returns the two iterable joined | 
 
+##### Iterable<MapEntry<K, V>>
+| Command | Result | Description |
+| toBuiltMapList() | Map<K, List<V>> | groups values by key |
+
 ### Map<K, V> - BuiltMap<K, V>
 
 | Command | Description |
@@ -86,10 +90,11 @@ Not repeat data or `AsyncSnapshot`
 | ValueStreamBuilder | Construct the `Widget` based on the data |
 | ValueStreamListener | Notify change data |
 
-#### Others
+#### Basic
 
 | Widget | Description |
 | ------- | ----------- |
+| FixedIndexedStack | Build the child only when the index is selected |
 | SizeCopier | Update a `SizeCopierController` with the size of the child |
 | SizeCopy | Create a SizedWidget taking inspiration from `SizeCopierController` |
 | KeyboardRemover | Close the keyboard when use press on the screen |

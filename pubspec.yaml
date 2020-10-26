@@ -1,14 +1,14 @@
 name: flutter_extensions
 description: A new Flutter project.
-version: 1.0.0
+version: 1.0.4
 author: BreX900
 homepage: https://github.com/BreX900/flutter_extensions
 
 # flutter pub publish --dry-run
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
-  flutter: ">=1.22.0 <2.0.0"
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.17.0 <2.0.0"
 
 dependencies:
   flutter:
@@ -18,13 +18,13 @@ dependencies:
   rational: ^0.3.8
   basic_utils: ^2.6.3
   path: ^1.7.0
-  meta: ^1.2.3
+  meta: ^1.2.4
 
   built_value: ^7.1.0
   built_collection: ^4.3.2
   rxdart: ^0.24.1
 
-  provider: ^4.3.2+2
+  provider: ^4.3.2+3
 
 dev_dependencies:
   flutter_test:

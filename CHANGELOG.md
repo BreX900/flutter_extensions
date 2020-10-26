@@ -1,3 +1,18 @@
+## [1.0.4]
+- Added `FixedIndexedStack`
+
+## [1.0.3]
+- Added `Iterable<MapEntry<K, V>>.toBuiltMapList()`
+
+## [1.0.2]
+Fix flutter and dart version
+
+## [1.0.1]
+- Added copyWith for Size
+- Added AspectRationBuilder
+- Added InkStack
+- Added ButtonStyleBuilder
+
 ## [1.0.0] - 2020/10/15
 - Restyle code
 - Add KeyboardRemover

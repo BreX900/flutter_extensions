@@ -34,8 +34,7 @@ extension IterableExtensions<T> on Iterable<T> {
     for (var value in this) {
       (iterable.contains(value) ? equals.add : great.add)(value);
     }
-    return SeparatedResult._(
-        iterable.where((value) => !contains(value)).toList(), equals, great);
+    return SeparatedResult._(iterable.where((value) => !contains(value)).toList(), equals, great);
   }
 
   Iterable<T> whereNotContains(Iterable<T> badElements) {
@@ -64,8 +63,7 @@ extension IterableExtensions<T> on Iterable<T> {
     }
   }
 
-  V tryFirstWhereType<V>() =>
-      firstWhere((element) => element is V, orElse: () => null) as V;
+  V tryFirstWhereType<V>() => firstWhere((element) => element is V, orElse: () => null) as V;
 
   Iterable<N> doubleMap<N>(N Function(T, T) converter) {
     final it = iterator;
@@ -121,8 +119,9 @@ extension IterableExtensions<T> on Iterable<T> {
     return map(generator).toMap();
   }
 
-  Map<K, List<V>> generateMapList<K, V>(
-      MapEntry<K, V> Function(T element) generator) {
+  /// In favour of [IterableMapEntryExt.toMapList]
+  @deprecated
+  Map<K, List<V>> generateMapList<K, V>(MapEntry<K, V> Function(T element) generator) {
     final map = <K, List<V>>{};
     for (var element in this) {
       final entry = generator(element);
@@ -141,8 +140,7 @@ extension IterableExtensions<T> on Iterable<T> {
     var book = <int, List<T>>{};
     int pageCount = 0;
     var list = this;
-    while (list.isNotEmpty &&
-        (numberOfPages == null || pageCount < numberOfPages)) {
+    while (list.isNotEmpty && (numberOfPages == null || pageCount < numberOfPages)) {
       book[pageCount++] = this.take(valuesPerPage).toList();
       list = list.skip(valuesPerPage);
     }
@@ -164,6 +162,15 @@ class SeparatedResult<T> {
 
 extension IterableMapEntryExt<K, V> on Iterable<MapEntry<K, V>> {
   Map<K, V> toMap() => Map.fromEntries(this);
+
+  Map<K, List<V>> toMapList() {
+    final map = <K, List<V>>{};
+    for (var entry in this) {
+      map.putIfAbsent(entry.key, () => []).add(entry.value);
+    }
+    return map;
+  }
+
   Iterable<V> get values => map((entry) => entry.value);
   Iterable<K> get keys => map((entry) => entry.key);
 }

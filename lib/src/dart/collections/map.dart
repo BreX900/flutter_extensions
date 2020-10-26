@@ -29,6 +29,13 @@ extension MapExtensions<K, V> on Map<K, V> {
 
   K getKeyBefore(K key, [int before = 1]) =>
       MapUtility.getElementBefore(keys, key, before);
+
+  MapEntry<K, V> firstWhere(
+    bool Function(K key, V value) test, {
+    MapEntry<K, V> Function() orElse,
+  }) {
+    return entries.firstWhere((e) => test(e.key, e.value), orElse: orElse);
+  }
 }
 
 extension OrderMapExt<K extends num, V> on Map<K, V> {

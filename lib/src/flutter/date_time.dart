@@ -9,3 +9,10 @@ extension DateTimeFlutterExtensions on DateTime {
     return copyWith(hour: timeOfDay.hour, minute: timeOfDay.minute);
   }
 }
+
+extension DurationFlutterExtension on Duration {
+  DateTime toDateTime({DateTime from, bool isUtc = false}) {
+    from ??= DateTime(0, 1, 1, 0, 0, 0, 0, 0);
+    return from.add(this);
+  }
+}
